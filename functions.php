@@ -21,17 +21,28 @@ function isValidRecipe(array $recipe): bool
 }
 
 
-function getRecipes(array $recipes): array
+function isOldestDate($date1,$date2,$format = 'Y-m-d') : bool //renvoie 0 si date1 < date2 et 1 sinon
 {
-    $valid_recipes = [];
-    foreach ($recipes as $recipe) {
-        if (isValidRecipe($recipe)) {
-            $valid_recipes[] = $recipe;
-        }
-    }
-    return $valid_recipes;
+    $d1 = DateTime::CreateFromFormat($format,$date1);
+    $d2 = DateTime::CreateFromFormat($format,$date2);
+    return $d1>=$d2;
 }
 
+function isValidFormatDate($date, $format = 'Y-m-d'): bool 
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) === $date;
+}
+
+function isValidDate($date) : bool
+{
+    if(isValidFormatDate($date)){
+        if(isOldestDate($date,'1995-06-16') && isOldestDate(date('Y-m-d'),$date)){
+            return true;
+        }
+    }
+    return false;
+}
 function redirectToUrl(string $url): never
 {
     header("Location: {$url}");

@@ -47,23 +47,31 @@ require_once(__DIR__ . '/submit_login.php');
         </div>
         <button type="submit" class="btn btn-primary">Envoyer</button>
         <?php 
-        if(isset($_SESSION['choix'])) :?>
-        <ul id="nasa-list" class="mt-4"></ul>
-        <script>
-        fetch('get_apod.php')
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                const ul = document.getElementById("nasa-list");
-                const li = document.createElement("li");
-                li.innerHTML = `<strong>${data.title}</strong><br><img src="${data.url}" alt="${data.title}" style="max-width: 100%;"><p>${data.explanation}</p>`;
-                ul.appendChild(li);
-            })
-            .catch(error => {
-                console.error("Erreur lors de la récupération de l'image NASA :", error);
-            });
-        </script>
-        <?php endif; ?>
+        if(isset($_SESSION['choix'])) {
+            if(isValidDate($_SESSION['choix'])){  ?>     
+                <ul id="nasa-list" class="mt-4"></ul>
+                <script>
+                fetch('get_apod.php')
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                        const ul = document.getElementById("nasa-list");
+                        const li = document.createElement("li");
+                        li.innerHTML = `<strong>${data.title}</strong><br><img src="${data.url}" alt="${data.title}" style="max-width: 100%;"><p>${data.explanation}</p>`;
+                        ul.appendChild(li);
+                    })
+                    .catch(error => {
+                        console.error("Erreur lors de la récupération de l'image APOD :", error);
+                    });
+                </script> 
+                
+                <?php 
+                echo isOldestDate($_SESSION['choix'],'2025-06-21');
+                } 
+                else {
+                echo 'la date choisie n\'est pas valable'; 
+                };?>
+        <?php } ?>
     </form>
     <?php }?>
    

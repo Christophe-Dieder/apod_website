@@ -28,9 +28,8 @@ $_SESSION['choix'] = date('Y-m-j');
         <h1>Découvre des paysages magnifiques et partage-les</h1>
 
         <!-- Formulaire de connexion -->
-        <?php require_once(__DIR__ . '/login.php'); ?>
 
-        <h3>L'image du jour <?php echo date('j-F-Y')?></h3>
+        <h3>L'image du jour <?php echo date('d-m-Y')?></h3>
 
         <ul id="nasa-list" class="mt-4"></ul>
         <script>
